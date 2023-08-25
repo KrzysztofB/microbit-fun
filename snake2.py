@@ -1,7 +1,3 @@
-from microbit import *
-
-# led Snake 
-
 def hideTail():
     if len(snakeList) > 6:
         led.unplot(snakeList.pop(), snakeList.pop())
