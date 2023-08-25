@@ -6,6 +6,16 @@ def outOfScreen(num: number):
         return 1
     else:
         return 0
+def switchDirectionRandomly():
+    global direction
+    if randint(0, 1) == 1:
+        if direction == HORIZONTAL:
+            direction = VERTICAL
+        else:
+            direction = HORIZONTAL
+        return 1
+    else:
+        return 0
 def moveHead():
     global px, dx, py, dy
     if direction == HORIZONTAL:
@@ -24,24 +34,22 @@ def showHead():
     led.plot(px, py)
     snakeList.unshift(px)
     snakeList.unshift(py)
-def switchDirection():
-    global direction
-    if direction == HORIZONTAL:
-        direction = VERTICAL
-    else:
-        direction = HORIZONTAL
 def escapeOuterCorner():
     global dy, py, dx, px
     if outOfScreen(py) == 1:
         dy = dy * -1
         py += dy
-        switchDirection()
-        moveHead()
+        if switchDirectionRandomly() == 0:
+            py += dy
+        else:
+            moveHead()
     if outOfScreen(px) == 1:
         dx = dx * -1
         px += dx
-        switchDirection()
-        moveHead()
+        if switchDirectionRandomly() == 0:
+            px += dx
+        else:
+            moveHead()
 dy = 0
 dx = 0
 direction = 0
@@ -66,5 +74,4 @@ def on_forever():
     hideTail()
     moveHead()
     escapeOuterCorner()
-    
 basic.forever(on_forever)
